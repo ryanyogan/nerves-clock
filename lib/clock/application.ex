@@ -6,36 +6,25 @@ defmodule Clock.Application do
   use Application
 
   def start(_type, _args) do
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Clock.Supervisor]
 
-    children =
-      [
-        {Clock.Server, Application.get_all_env(:clock)}
-      ] ++ children(target())
-
-    Supervisor.start_link(children, opts)
+    Supervisor.start_link(children(target(), env()), opts)
   end
 
   # List all child processes to be supervised
-  def children(:host) do
-    [
-      # Children that only run on the host
-      # Starts a worker by calling: Clock.Worker.start_link(arg)
-      # {Clock.Worker, arg},
-    ]
+  def children(_target, :test) do
+    []
   end
 
-  def children(_target) do
-    [
-      # Children for all targets except host
-      # Starts a worker by calling: Clock.Worker.start_link(arg)
-      # {Clock.Worker, arg},
-    ]
+  def children(_target, _other) do
+    [{Clock.Server, Application.get_all_env(:clock)}]
   end
 
-  def target() do
+  defp target() do
     Application.get_env(:clock, :target)
+  end
+
+  defp env() do
+    Mix.env()
   end
 end
