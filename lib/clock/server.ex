@@ -21,7 +21,7 @@ defmodule Clock.Server do
   def tick, do: send(@me, :tick)
   def default_pins, do: %{0 => 21, 1 => 19, 2 => 6, 3 => 23, 4 => 12, 5 => 18}
   def default_time, do: Time.utc_now().second
-  def default_send_ticks, do: :timer.send_interval(1_000, :tick)
+  def default_send_ticks, do: :timer.send_interval(60_000, :tick)
 
   def default_options do
     %{
