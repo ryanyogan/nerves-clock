@@ -12,10 +12,8 @@ defmodule Clock.ServerTest do
     start()
 
     assert time() == 0
-
     Server.tick()
     assert time() == 1
-
     Server.tick()
     assert time() == 2
   end
