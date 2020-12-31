@@ -25,6 +25,6 @@ defmodule Clock.Application do
   end
 
   defp env() do
-    Mix.env()
+    Application.get_env(:clock, :env)
   end
 end
