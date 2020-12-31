@@ -49,6 +49,7 @@ config :nerves_ssh,
 
 # Configure the network using vintage_net
 # See https://github.com/nerves-networking/vintage_net for more information
+
 config :vintage_net,
   regulatory_domain: "US",
   config: [
@@ -58,7 +59,22 @@ config :vintage_net,
        type: VintageNetEthernet,
        ipv4: %{method: :dhcp}
      }},
-    {"wlan0", %{type: VintageNetWiFi}}
+    {"wlan0",
+     %{
+       type: VintageNetWiFi,
+       vintage_net_wifi: %{
+         networks: [
+           %{
+             key_mgmt: :wpa_psk,
+             ssid: "capistrano",
+             psk: "@sstastic"
+           }
+         ]
+       },
+       ipv4: %{
+         method: :dhcp
+       }
+     }}
   ]
 
 config :mdns_lite,
